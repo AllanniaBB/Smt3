@@ -56,12 +56,12 @@ namespace InsaniaxBlockOverRegistration
             // Block new demons
             if (BlockedNewDemons.ContainsKey(demonId))
             {
-                MelonLogger.Msg($"[DEBUG] Skipping compendium registration for {BlockedNewDemons[demonId]} (ID {demonId})");
+                MelonLogger.Msg($"[DEBUG] Skipping compendium registration for Insaniax demon: {BlockedNewDemons[demonId]} (ID {demonId})");
                 __result = -1;
                 return false;
             }
 
-            // Block if compendium at vanilla limit
+            // Block if compendium at vanilla limit (184 base + Dante/Raidou)
             if (currentCount == 185)
             {
                 MelonLogger.Msg($"[DEBUG] Compendium limit reached, skipping registration for demon ID {demonId}");
@@ -72,4 +72,5 @@ namespace InsaniaxBlockOverRegistration
             return true; // Allow registration
         }
     }
+
 }
