@@ -16,6 +16,21 @@ namespace InsaniaxBlockOverRegistration
         }
     }
 
+    // Simple hack so regristration ratio accounts for new demons
+    [HarmonyPatch(typeof(fclEncyc), "fclEncycGetRatio2")]
+    public static class Patch_fclEncycGetRatio2
+    {
+        public static bool Prefix(ref int __result)
+        {
+            int totalDemons = 185;
+            int currentCount = fclEncyc.fclEncycGetNum();
+
+            __result = (currentCount * 100) / totalDemons;
+
+            return false;
+        }
+    }
+
     // Block specific demons from being registered in the compendium
     [HarmonyPatch(typeof(fclEncyc), "fclEncycRegist")]
     public static class BlockNewDemonsRegistration
@@ -74,3 +89,4 @@ namespace InsaniaxBlockOverRegistration
     }
 
 }
+
