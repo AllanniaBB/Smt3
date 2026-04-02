@@ -13,7 +13,7 @@ namespace PixeJive
         public override void OnInitializeMelon()
         {
             LoggerInstance.Msg("Initialized.");
-            tblSkill.fclSkillTbl[61].Event[7] = new fclSkillParam_t { Param = 421, TargetLevel = 0, Type = 1 }; // Counter
+            tblSkill.fclSkillTbl[61].Event[7] = new fclSkillParam_t { Param = 421, TargetLevel = 0, Type = 1 }; // Jive Talk
         }
     }
 }
