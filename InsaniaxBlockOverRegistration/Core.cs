@@ -35,7 +35,7 @@ namespace InsaniaxBlockOverRegistration
     [HarmonyPatch(typeof(fclEncyc), "fclEncycRegist")]
     public static class BlockNewDemonsRegistration
     {
-        private static readonly Dictionary<int, string> BlockedNewDemons = new()
+        private static readonly Dictionary<int, string> InsaniaxNewDemons = new()
         {
             {179, "OseHallel"},
             {180, "FlaurosHallel"},
@@ -57,21 +57,24 @@ namespace InsaniaxBlockOverRegistration
         public static bool Prefix(ref int __result, datUnitWork_t __0, int __1, bool __2)
         {
             int demonId = (int)__0.id;
+            var demonName = datDevilName.Get(demonId);
             int currentCount = fclEncyc.fclEncycGetNum();
             int existingIndex = fclEncyc.fclEncycSearch(demonId);
 
             //MelonLogger.Msg($"[DEBUG] Compendium search: {existingIndex}");
-            
+            //MelonLogger.Msg($"[DEBUG] Pre currentCount: {currentCount} | Complete Ratio: {fclEncyc.fclEncycGetRatio2()}");
+            //MelonLogger.Msg($"[DEBUG] Demon: {demonName} (ID {demonId})");
+
             if (existingIndex != -1)
             {
                 // Already in compendium → allow updates
                 return true;
             }
 
-            // Block new demons
-            if (BlockedNewDemons.ContainsKey(demonId))
+            // Block Insaniax demons
+            if (InsaniaxNewDemons.ContainsKey(demonId))
             {
-                MelonLogger.Msg($"[DEBUG] Skipping compendium registration for Insaniax demon: {BlockedNewDemons[demonId]} (ID {demonId})");
+                MelonLogger.Msg($"[DEBUG] Skipping compendium registration for Insaniax demon: {demonName} (ID {demonId})");
                 __result = -1;
                 return false;
             }
@@ -79,14 +82,21 @@ namespace InsaniaxBlockOverRegistration
             // Block if compendium at vanilla limit (184 base + Dante/Raidou)
             if (currentCount == 185)
             {
-                MelonLogger.Msg($"[DEBUG] Compendium limit reached, skipping registration for demon ID {demonId}");
+                MelonLogger.Msg($"[DEBUG] Compendium limit reached, skipping registration for demon: {demonName} (ID {demonId})");
                 __result = -1;
                 return false;
             }
 
             return true; // Allow registration
         }
-    }
+        public static void Postfix(ref int __result, datUnitWork_t __0, int __1, bool __2)
+        {
+            int demonId = (int)__0.id;
+            int currentCount = fclEncyc.fclEncycGetNum();
 
+            //MelonLogger.Msg($"[DEBUG] Compendium search: {existingIndex}");
+            //MelonLogger.Msg($"[DEBUG] Post currentCount: {currentCount} | Complete Ratio: {fclEncyc.fclEncycGetRatio2()}");
+        }
+    }
 }
 
