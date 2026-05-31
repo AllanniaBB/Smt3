@@ -16,7 +16,7 @@ namespace InsaniaxBlockOverRegistration
         }
     }
 
-    // Simple hack so regristration ratio accounts for new demons
+    // Simple hack so registration ratio is based purely on the total of restigered demons, not on specific demons.
     [HarmonyPatch(typeof(fclEncyc), "fclEncycGetRatio2")]
     public static class Patch_fclEncycGetRatio2
     {
